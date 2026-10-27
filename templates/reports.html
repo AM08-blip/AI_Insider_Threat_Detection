@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Reports | AI Insider Threat Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="dashboard-body">
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-shield">AI</div>
+                <div>
+                    <h2>AI INSIDER<br>THREAT DETECTION</h2>
+                    <p>Smart. Secure. Protected.</p>
+                </div>
+            </div>
+            <div class="nav-label">ADMIN PANEL</div>
+            <nav class="sidebar-menu"><a href="{{ url_for('dashboard') }}" class=""><span>⌂</span>Dashboard</a><a
+                    href="{{ url_for('users') }}" class=""><span>♙</span>Users</a><a
+                    href="{{ url_for('activity_logs') }}" class=""><span>▤</span>Activity Logs</a><a
+                    href="{{ url_for('threats') }}" class=""><span>△</span>Threats</a><a href="{{ url_for('reports') }}"
+                    class="active"><span>▧</span>Reports</a><a href="{{ url_for('logout') }}"
+                    class="logout-link"><span>↪</span>Logout</a></nav>
+            <div class="system-status"><b>SYSTEM STATUS</b>
+                <p><i></i> All Systems Operational</p><small>AI Model: <strong>Active</strong></small>
+            </div>
+        </aside>
+        <main class="dashboard-main">
+            <header class="topbar">
+                <div>
+                    <h1>Reports</h1>
+                    <p>AI-based employee threat analysis</p>
+                </div>
+                <div class="admin-profile"><span class="profile-dot"></span>Administrator</div>
+            </header>
+            <section class="panel report-hero">
+                <div>
+                    <h2>Generate Security Report</h2>
+                    <p>Export the latest AI-based insider threat analysis as a PDF.</p>
+                </div><a href="{{ url_for('download_report') }}" class="primary-btn">⇩ Download PDF Report</a>
+            </section>
+            <section class="panel">
+                <div class="section-header">
+                    <h2>Current Employee Risk Report</h2><span class="chip">Live AI Results</span>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Employee</th>
+                                <th>Activities</th>
+                                <th>Risk Score</th>
+                                <th>Risk Level</th>
+                                <th>AI Result</th>
+                                <th>Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody>{% for result in report_results %}<tr>
+                                <td><b>{{ result.username }}</b></td>
+                                <td>{{ result.activity_count }}</td>
+                                <td>
+
+                                <div class="score-inline">
+
+                                    <b>
+                                        {{ result.risk_score }}%
+                                    </b>
+
+                                    <progress
+                                        class="risk-progress"
+                                        value="{{ result.risk_score }}"
+                                        max="100">
+                                    </progress>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+
+                                {% if result.risk_level == "Low" %}
+
+                                    <span class="risk-low">
+                                        Low
+                                    </span>
+
+                                {% elif result.risk_level == "Medium" %}
+
+                                    <span class="risk-medium">
+                                        Medium
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="risk-high">
+                                        High
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                {% if result.prediction == 1 %}
+
+                                    <span class="result-bad">
+                                        Suspicious
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="result-good">
+                                        Normal
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td class="reason-cell">
+
+                                {% for reason in result.reasons %}
+
+                                    {{ reason }}
+
+                                    {% if not loop.last %}
+                                        <br>
+                                    {% endif %}
+
+                                {% endfor %}
+
+                            </td>
+                            <td class="reason-cell">{{ result.reasons|join(', ') }}</td>
+                            </tr>{% else %}<tr>
+                                <td colspan="6">No employee data available.</td>
+                            </tr>{% endfor %}</tbody>
+                    </table>
+                </div>
+            </section>
+            <footer>© 2026 AI-Based Insider Threat Detection System.</footer>
+        </main>
+    </div>
+</body>
+
+</html>

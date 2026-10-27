@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Secure Login | AI Insider Threat Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="login-page">
+    <div class="login-shell">
+        <section class="login-brand">
+            <div class="login-shield">AI</div>
+            <h1>AI INSIDER<br>THREAT DETECTION</h1>
+            <p>Intelligent behavioral monitoring for a safer digital workplace.</p>
+            <div class="login-points"><span>✓ Real-time activity monitoring</span><span>✓ AI-powered threat
+                    detection</span><span>✓ Secure role-based access</span></div>
+        </section>
+        <section class="login-card"><span class="eyebrow">SECURE ACCESS</span>
+            <h2>Welcome back</h2>
+            <p>Sign in to continue to your security portal.</p>{% with messages=get_flashed_messages() %}{% for message
+            in messages %}<div class="error-message">{{ message }}</div>{% endfor %}{% endwith %}<form method="POST"
+                action="{{ url_for('login') }}"><label>Username</label><input name="username"
+                    placeholder="Enter username" required><label>Password</label><input type="password" name="password"
+                    placeholder="Enter password" required><button>Sign In Securely →</button></form><small
+                class="login-note">Protected by AI Security Monitoring</small>
+        </section>
+    </div>
+</body>
+
+</html>

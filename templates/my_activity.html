@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>My Activity | AI Insider Threat Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="dashboard-body">
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-shield">AI</div>
+                <div>
+                    <h2>AI INSIDER<br>THREAT DETECTION</h2>
+                    <p>Smart. Secure. Protected.</p>
+                </div>
+            </div>
+            <div class="nav-label">EMPLOYEE PORTAL</div>
+            <nav class="sidebar-menu"><a href="{{ url_for('employee_dashboard') }}" class=""><span>⌂</span>My
+                    Dashboard</a><a href="{{ url_for('documents') }}" class=""><span>▤</span>Documents</a><a
+                    href="{{ url_for('my_activity') }}" class="active"><span>◫</span>My Activity</a><a
+                    href="{{ url_for('logout') }}" class="logout-link"><span>↪</span>Logout</a></nav>
+            <div class="system-status"><b>SYSTEM STATUS</b>
+                <p><i></i> All Systems Operational</p><small>AI Model: <strong>Active</strong></small>
+            </div>
+        </aside>
+        <main class="dashboard-main">
+            <header class="topbar">
+                <div>
+                    <h1>My Activity</h1>
+                    <p>Review your monitored account events</p>
+                </div>
+                <div class="admin-profile"><span class="profile-dot"></span>{{ current_user.username }}</div>
+            </header>
+            <section class="panel">
+                <div class="section-header">
+                    <h2>My Security Activity</h2><span class="chip">Account Audit Trail</span>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Activity</th>
+                                <th>Details</th>
+                                <th>Risk</th>
+                                <th>Date & Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>{% for activity in activities %}<tr>
+                                <td><b>{{ activity.activity_type }}</b></td>
+                                <td>{{ activity.details }}</td>
+                                <td><span class="risk-{{ activity.risk_level|lower }}">{{ activity.risk_level }}</span>
+                                </td>
+                                <td>{{ activity.timestamp.strftime('%d-%m-%Y %I:%M %p') if activity.timestamp else '-'
+                                    }}</td>
+                            </tr>{% else %}<tr>
+                                <td colspan="4">No activity found.</td>
+                            </tr>{% endfor %}</tbody>
+                    </table>
+                </div>
+            </section>
+            <footer>© 2026 AI-Based Insider Threat Detection System.</footer>
+        </main>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Threats | AI Insider Threat Detection
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+
+<body class="dashboard-body">
+
+<div class="dashboard-layout">
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+            <h2>AI INSIDER<br>THREAT DETECTION</h2>
+            <p>Smart. Secure. Protected.</p>
+        </div>
+
+
+        <div class="sidebar-label">
+            ADMIN PANEL
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a href="{{ url_for('dashboard') }}">
+                Dashboard
+            </a>
+
+            <a href="{{ url_for('users') }}">
+                Users
+            </a>
+
+            <a href="{{ url_for('activity_logs') }}">
+                Activity Logs
+            </a>
+
+            <a href="{{ url_for('threats') }}"
+               class="active">
+                Threats
+            </a>
+
+            <a href="{{ url_for('reports') }}">
+                Reports
+            </a>
+
+            <a href="{{ url_for('logout') }}">
+                Logout
+            </a>
+
+        </nav>
+
+
+        <div class="system-status">
+
+            <strong>SYSTEM STATUS</strong>
+
+            <p>
+                <span class="status-dot"></span>
+                All Systems Operational
+            </p>
+
+            <small>
+                AI Model: Active
+            </small>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="dashboard-main">
+
+        <!-- HEADER -->
+
+        <div class="topbar">
+
+            <div>
+                <h1>Threat Detection</h1>
+
+                <p>
+                    AI-based employee behavior analysis
+                </p>
+            </div>
+
+            <div class="admin-profile">
+                Administrator
+            </div>
+
+        </div>
+
+
+        <!-- PAGE TITLE -->
+
+        <section class="panel">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>Employee Risk Analysis</h2>
+
+                    <p>
+                        AI analysis of employee activity
+                        during the recent monitoring period.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             THREAT CARDS
+        ========================== -->
+
+        <section class="panel">
+
+            <div class="section-header">
+
+                <h2>AI Threat Results</h2>
+
+            </div>
+
+
+            <div class="threat-list">
+
+                {% for result in threat_results %}
+
+                <article class="threat-analysis-card">
+
+
+                    <!-- EMPLOYEE -->
+
+                    <div class="threat-user">
+
+                        <div class="avatar">
+                            {{ result.username[0] | upper }}
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                {{ result.username }}
+                            </strong>
+
+                            <span>
+                                Employee
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- RISK SCORE -->
+
+                    <div class="threat-score">
+
+                        <span class="small-label">
+                            AI Risk Score
+                        </span>
+
+                        <strong>
+                            {{ result.risk_score }}%
+                        </strong>
+
+
+                        <progress
+                            class="risk-progress"
+                            value="{{ result.risk_score }}"
+                            max="100">
+                        </progress>
+
+                    </div>
+
+
+                    <!-- RISK LEVEL -->
+
+                    <div class="threat-level">
+
+                        <span class="small-label">
+                            Risk Level
+                        </span>
+
+
+                        {% if result.risk_level == "Low" %}
+
+                            <span class="risk-low">
+                                LOW
+                            </span>
+
+
+                        {% elif result.risk_level == "Medium" %}
+
+                            <span class="risk-medium">
+                                MEDIUM
+                            </span>
+
+
+                        {% else %}
+
+                            <span class="risk-high">
+                                HIGH
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- AI RESULT -->
+
+                    <div class="threat-result">
+
+                        <span class="small-label">
+                            AI Result
+                        </span>
+
+
+                        {% if result.prediction == 1 %}
+
+                            <span class="result-bad">
+                                Suspicious
+                            </span>
+
+                        {% else %}
+
+                            <span class="result-good">
+                                Normal
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- REASONS -->
+
+                    <div class="threat-reasons">
+
+                        <span class="small-label">
+                            Detection Reason
+                        </span>
+
+
+                        <div class="reason-list">
+
+                            {% for reason in result.reasons %}
+
+                                <span>
+                                    • {{ reason }}
+                                </span>
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+
+                </article>
+
+
+                {% else %}
+
+                    <p class="empty">
+                        No employee data available.
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <footer>
+            © 2026 AI-Based Insider Threat Detection System.
+        </footer>
+
+    </main>
+
+</div>
+
+</body>
+</html>
